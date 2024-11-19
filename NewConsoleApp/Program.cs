@@ -15,9 +15,9 @@ namespace NewConsoleApp
             }
 
             Console.WriteLine("Input the price of the trade:");
-            string inputPrice = Console.ReadLine();
-            double price = double.Parse(inputPrice);
-            if (price <= 0)
+            string inputPriceTrade = Console.ReadLine();
+            double priceTrade = double.Parse(inputPriceTrade);
+            if (priceTrade <= 0)
             {
                 throw new ArgumentException("Price should be positive");
             }
@@ -26,16 +26,30 @@ namespace NewConsoleApp
             string inputType = Console.ReadLine();
             var trcType = (TransactionType) Enum.Parse(typeof(TransactionType), inputType, true);
 
-            // Different approach
-            var currentValue = new CurrentValueCalc();
-            var trcValue = currentValue.Calculation(nominal, price, trcType);
+            if (trcType == TransactionType.Sell)
+            {
+                Console.WriteLine("Input the price of the original trade:");
+                string inputPriceOriginal = Console.ReadLine();
+                double priceOriginal = double.Parse(inputPriceOriginal);
+                if (priceOriginal <= 0)
+                {
+                    throw new ArgumentException("Price should be positive");
+                }
 
-            // Standard approach
-            //var currentValue = nominal * price;
-            //var trcValue = trcType == TransactionType.Buy ? currentValue : (currentValue * -1);
+                var currentValueSell = new Calculator();
+                var profitLossValue = currentValueSell.ProfitLossCalculation(priceTrade, priceOriginal, nominal);
+                var trcValueSell = currentValueSell.CurrentValueCalculation(nominal, priceTrade, trcType);
 
-            Console.WriteLine($"Current value of the transaction is {trcValue}");
+                Console.WriteLine($"Current value of the transaction is {trcValueSell}");
+                Console.WriteLine($"Profit and Loss of the transaction is {profitLossValue}");
+            }
+            else
+            {
+                var currentValueBuy = new Calculator();
+                var trcValueBuy = currentValueBuy.CurrentValueCalculation(nominal, priceTrade, trcType);
 
+                Console.WriteLine($"Current value of the transaction is {trcValueBuy}");
+            }
         }
     }
 }
