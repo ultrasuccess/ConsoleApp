@@ -9,17 +9,21 @@ namespace NewConsoleApp
             Console.WriteLine("Input the nominal of the trade:");
             string inputNominal = Console.ReadLine();
             double nominal = double.Parse(inputNominal);
-            if (nominal <= 0)
+            while (nominal <= 0)
             {
-                throw new ArgumentException("Nominal should be positive");
+                Console.WriteLine("Nominal should be positive");
+                inputNominal = Console.ReadLine();
+                nominal = double.Parse(inputNominal);
             }
 
             Console.WriteLine("Input the price of the trade:");
             string inputPriceTrade = Console.ReadLine();
             double priceTrade = double.Parse(inputPriceTrade);
-            if (priceTrade <= 0)
+            while (priceTrade <= 0)
             {
-                throw new ArgumentException("Price should be positive");
+                Console.WriteLine("The price should be positive");
+                inputPriceTrade = Console.ReadLine();
+                priceTrade = double.Parse(inputPriceTrade);
             }
 
             Console.WriteLine("Input the type of the trade:");
@@ -31,9 +35,11 @@ namespace NewConsoleApp
                 Console.WriteLine("Input the price of the original trade:");
                 string inputPriceOriginal = Console.ReadLine();
                 double priceOriginal = double.Parse(inputPriceOriginal);
-                if (priceOriginal <= 0)
+                while (priceOriginal <= 0)
                 {
-                    throw new ArgumentException("Price should be positive");
+                    Console.WriteLine("The price should be positive");
+                    inputPriceOriginal = Console.ReadLine();
+                    priceOriginal = double.Parse(inputPriceOriginal);
                 }
 
                 var currentValueSell = new Calculator();
